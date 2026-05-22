@@ -59,7 +59,7 @@ Cada fuente se implementa completa antes de pasar a la siguiente.
 ### Backend
 - **Python 3.12+**
 - **FastAPI** — API REST
-- **SQLAlchemy 2.0** — ORM (sync por defecto, async si hay necesidad real)
+- **SQLAlchemy 2.0** — ORM async (asyncpg como driver)
 - **Alembic** — migraciones
 - **PostgreSQL** — base de datos principal
 - **Redis** — cache (fases posteriores)
@@ -73,7 +73,7 @@ Cada fuente se implementa completa antes de pasar a la siguiente.
 
 ### Testing
 - **pytest** — solo donde agrega valor real
-- **pytest-asyncio** — si usamos async
+- **pytest-asyncio** — para tests con async/await
 - **respx** — mock de HTTP en tests unitarios
 
 ### Frontend
