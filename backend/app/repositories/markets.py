@@ -1,6 +1,7 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.dialects.postgresql import insert
 from app.models.market import MarketModel
+from sqlalchemy import select
 
 async def upsert_markets(session: AsyncSession,markets: list[dict]) -> int:
 
@@ -19,3 +20,23 @@ async def upsert_markets(session: AsyncSession,markets: list[dict]) -> int:
     await session.commit()
 
     return len(markets)
+
+async def get_active_markets(session: AsyncSession, limit: int, offset: int) -> list[MarketModel]:
+    
+    result = await session.execute(
+    select(MarketModel)
+    .where(MarketModel.active == True)
+    .order_by(MarketModel.volume.desc())
+    .limit(limit)
+    .offset(offset)
+    )
+
+    return result.scalars().all()
+
+async def get_market_by_id(session: AsyncSession, id: str):
+
+    result = await session.execute(
+        select(MarketModel)
+        .where(MarketModel.id == id)
+    )
+    return result.scalars().first()
