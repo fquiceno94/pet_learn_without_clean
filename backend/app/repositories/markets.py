@@ -26,7 +26,7 @@ async def get_active_markets(session: AsyncSession, limit: int, offset: int) -> 
     result = await session.execute(
     select(MarketModel)
     .where(MarketModel.active == True)
-    .order_by(MarketModel.volume.desc())
+    .order_by(MarketModel.volume.desc().nulls_last())
     .limit(limit)
     .offset(offset)
     )
