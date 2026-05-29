@@ -3,6 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi import HTTPException, Depends, APIRouter
 from app.repositories.markets import get_active_markets as fetch_markets, get_market_by_id as fetch_by_id
 from app.schemas.markets import MarketResponse
+from app.services.markets import ingest_markets as run_ingestion
 from app.api.deps import get_db
 
 router = APIRouter(prefix="/markets", tags=["markets"])
@@ -24,3 +25,8 @@ async def get_market_by_id(
     if market is None:
         raise HTTPException(status_code=404, detail="El mercado no existe")
     return market
+
+@router.post("/ingest")
+async def ingest_markets(session: Annotated[AsyncSession, Depends(get_db)]):
+    count = await run_ingestion(session=session)
+    return {"ingested":count}

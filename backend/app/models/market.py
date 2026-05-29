@@ -2,7 +2,7 @@ from typing import Optional
 from datetime import datetime
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
-from sqlalchemy import func, Float, DateTime
+from sqlalchemy import func, Float, DateTime, Text
 from sqlalchemy.dialects.postgresql import JSONB, ARRAY
 from app.models.base import Base
 
@@ -25,3 +25,5 @@ class MarketModel(Base):
     tags: Mapped[Optional[dict]]= mapped_column(JSONB,nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True),server_default=func.now())
     updated_at: Mapped[datetime]= mapped_column(DateTime(timezone=True),server_default=func.now(),onupdate=func.now())
+    clob_token_ids: Mapped[Optional[list[str]]]= mapped_column(ARRAY(Text),nullable=True)
+    event_slug: Mapped[Optional[str]]= mapped_column(nullable=True)

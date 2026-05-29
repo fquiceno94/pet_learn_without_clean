@@ -18,5 +18,7 @@ def transform_market(raw: dict) -> dict:
         "liquidity": float(raw["liquidityNum"]) if raw.get("liquidityNum") is not None else None,
         "active": raw["active"],
         "closed": raw["closed"],
-        "tags": raw.get("tags")
+        "tags": raw.get("tags"),
+        "clob_token_ids": [str(x) for x in json.loads(raw["clobTokenIds"])] if raw.get("clobTokenIds") else None,
+        "event_slug": raw["events"][0]["slug"] if raw.get("events") else None,
     }

@@ -9,6 +9,7 @@ class RawMarketSchema(pa.DataFrameModel):
     active: Series[bool]
     closed: Series[bool]
     volume: Series[str] = pa.Field(nullable=True)
+    clobTokenIds: Series[str] = pa.Field(nullable=True)
 
 def validate_raw_markets(raw: list[dict])-> list[dict]:
     df = pd.DataFrame(raw)
